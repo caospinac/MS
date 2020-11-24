@@ -1,0 +1,8 @@
+{
+    "python.linting.pylintArgs": [
+        "--rcfile=web/.pylintrc"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.pythonPath": "web/.venv/bin/python",
+}

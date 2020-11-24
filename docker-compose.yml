@@ -1,0 +1,13 @@
+version: "3.6"
+
+services:
+
+  web:
+    image: web
+    build:
+      context: ./web
+    working_dir: /app/web
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
