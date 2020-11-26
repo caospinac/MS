@@ -1,4 +1,4 @@
-version: "3.6"
+version: "3.8"
 
 services:
 
@@ -11,3 +11,35 @@ services:
       - .:/app
     ports:
       - 8000:8000
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./scripts/initdb:/docker-entrypoint-initdb.d
+      - ./data/db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    ports:
+      - 5432:5432
+
+  pgadmin:
+    image: dpage/pgadmin4
+    network_mode: host
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: pgadmin-data
+        target: /var/lib/pgadmin
+    ports:
+      - 5050:5050
+    depends_on:
+      - db
+
+volumes:
+  pgadmin-data:
