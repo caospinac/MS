@@ -22,21 +22,29 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
       - .env
+    environment: 
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-superuser}
     ports:
       - 5432:5432
 
   pgadmin:
     image: dpage/pgadmin4
-    network_mode: host
-    restart: unless-stopped
+    links:
+      - db:${POSTGRES_SERVER:-psql}
     volumes:
       - type: volume
         source: pgadmin-data
         target: /var/lib/pgadmin
     ports:
-      - 5050:5050
+      - ${PGADMIN_LISTEN_PORT:-5050}:5050
     env_file:
       - .env
+    environment:
+      - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT:-5050}
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-admin@project.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-admin}
     depends_on:
       - db
 
