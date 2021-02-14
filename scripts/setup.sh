@@ -18,14 +18,14 @@ ALEMBIC_DIR="web/alem"
 
 if [ ! -d $ALEMBIC_DIR ]; then
     web/.venv/bin/python -m alembic init $ALEMBIC_DIR
-    eval $(egrep -v '^#' .env | xargs)
-
-    NEW_LINE="sqlalchemy.url = postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD"
-    NEW_LINE="$NEW_LINE@$POSTGRES_SERVER/$POSTGRES_DB"
-
-    sed -i "/sqlalchemy.url/c$NEW_LINE" alembic.ini
     sed -i '1 i\# pylint: disable=no-member' "$ALEMBIC_DIR/env.py"
 fi
+
+eval $(egrep -v '^#' .env | xargs)
+NEW_LINE="sqlalchemy.url = postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD"
+NEW_LINE="$NEW_LINE@db/$POSTGRES_DB"
+
+sed -i "/sqlalchemy.url/c$NEW_LINE" alembic.ini
 
 echo "All done."
 echo "Run 'docker-compose up' to start services"
