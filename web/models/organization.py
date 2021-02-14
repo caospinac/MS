@@ -1,8 +1,14 @@
+import enum
+
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
 
 from . import Model
 
+
+class OrganizationStatus(enum.Enum):
+    active = 'active'
+    inactive = 'inactive'
 
 class Organization(Model):
 
@@ -12,5 +18,5 @@ class Organization(Model):
     logo = sa.Column(sa.String)
     prefix = sa.Column(sa.String, nullable=False, unique=True)
     users = relationship('User', back_populates='organization')
-    status = sa.Column(sa.Enum('active', 'inactive'),
+    status = sa.Column(sa.Enum(OrganizationStatus),
                     nullable=False, default='inactive')
