@@ -22,8 +22,14 @@ if [ ! -d $ALEMBIC_DIR ]; then
 fi
 
 eval $(egrep -v '^#' .env | xargs)
+
+DB_ENDPOINT=$POSTGRES_SERVER
+if [ $POSTGRES_PORT ]; then
+    DB_ENDPOINT="$DB_ENDPOINT:$POSTGRES_PORT"
+fi
+
 NEW_LINE="sqlalchemy.url = postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD"
-NEW_LINE="$NEW_LINE@db/$POSTGRES_DB"
+NEW_LINE="$NEW_LINE@$DB_ENDPOINT/$POSTGRES_DB"
 
 sed -i "/sqlalchemy.url/c$NEW_LINE" alembic.ini
 
