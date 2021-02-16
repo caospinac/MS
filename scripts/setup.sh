@@ -14,7 +14,7 @@ fi
 web/.venv/bin/pip install -r web/requirements-dev.txt
 web/.venv/bin/pip install -r web/requirements.txt
 
-ALEMBIC_DIR="web/alem"
+ALEMBIC_DIR="web/db"
 
 if [ ! -d $ALEMBIC_DIR ]; then
     web/.venv/bin/python -m alembic init $ALEMBIC_DIR

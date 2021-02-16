@@ -11,5 +11,6 @@ class Role(Model):
 
     name = sa.Column(sa.String, nullable=False)
     code = sa.Column(sa.String, nullable=False)
-    organization_id = sa.Column(UUID, sa.ForeignKey('organizations.id'))
+    organization_id = sa.Column(UUID, sa.ForeignKey('organizations.id'),
+                                nullable=False)
     organization = relationship('Organization', back_populates='roles')

@@ -9,7 +9,8 @@ class CustomField(Model):
 
     __tablename__ = 'custom_fields'
 
-    organization_id = sa.Column(UUID, sa.ForeignKey('organizations.id'))
+    organization_id = sa.Column(UUID, sa.ForeignKey('organizations.id'),
+                                nullable=False)
     organization = relationship('Organization', back_populates='custom_fields')
     entity = sa.Column(sa.String, nullable=False)
     name = sa.Column(sa.String, nullable=False)
