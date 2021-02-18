@@ -9,9 +9,7 @@ class CustomField(Model):
 
     __tablename__ = 'custom_fields'
 
-    organization_id = sa.Column(UUID, sa.ForeignKey('organizations.id'),
-                                nullable=False)
-    organization = relationship('Organization', back_populates='custom_fields')
+    organization_id = sa.Column(UUID, sa.ForeignKey('organizations.id'))
     entity = sa.Column(sa.String, nullable=False)
     name = sa.Column(sa.String, nullable=False)
     type = sa.Column(sa.Enum('text', 'number', 'date', 'boolean'),
@@ -22,3 +20,6 @@ class CustomField(Model):
     max_value = sa.Column(sa.Integer)
     min_value = sa.Column(sa.Integer)
     re_match = sa.Column(sa.String)
+
+    organization = relationship('Organization', back_populates='custom_fields')
+    custom_values = relationship('CustomValue', back_populates='custom_field')

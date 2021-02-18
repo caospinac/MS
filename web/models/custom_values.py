@@ -14,3 +14,5 @@ class CustomValue(Model):
     custom_field = relationship('CustomField', back_populates='custom_values')
     entity_id = sa.Column(sa.String, nullable=False)
     value = sa.Column(sa.String)
+
+    custom_field = relationship('CustomField', back_populates='custom_values')
