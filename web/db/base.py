@@ -1,9 +1,8 @@
 import sqlalchemy as sa
-from sqlalchemy.ext.declarative import declarative_base
 
 
-from lib.const import DB_HOST
+from lib.const import DB_USER, DB_PASSWORD, DB_HOST, DB_NAME
 
-engine = sa.create_engine(DB_HOST, echo=True)
+db_endpoint = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}'
 
-Base = declarative_base()
+engine = sa.create_engine(db_endpoint, echo=True)

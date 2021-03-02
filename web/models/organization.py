@@ -3,7 +3,7 @@ import enum
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
 
-from . import Model
+from ._utils import Model
 
 
 class OrganizationStatus(enum.Enum):

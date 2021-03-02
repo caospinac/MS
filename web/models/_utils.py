@@ -2,12 +2,11 @@ import uuid
 from datetime import datetime
 
 import sqlalchemy as sa
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 
-from db import Base
 
-
-class Model(Base):
+class BaseModel(object):
 
     id = sa.Column(UUID, primary_key=True,
                    default=uuid.uuid4, unique=True, nullable=False)
@@ -19,3 +18,6 @@ class Model(Base):
     @staticmethod
     def default_value(column):
         return lambda cxt: cxt.get_current_parameters()[column]
+
+
+Model = declarative_base(cls=BaseModel)

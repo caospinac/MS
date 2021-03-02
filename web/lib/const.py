@@ -2,4 +2,7 @@ import os
 
 _ = os.getenv
 
-DB_HOST=_('POSTGRES_SERVER')
+DB_HOST = _('DB_HOST')
+DB_USER = _('POSTGRES_USER')
+DB_PASSWORD = _('POSTGRES_PASSWORD')
+DB_NAME =_('POSTGRES_DB')
