@@ -9,7 +9,7 @@ class OrganizationsRepository(Repository):
         return Organization
 
     @db_access
-    def create_organizations(self, payload: CreateSchema):
+    def create(self, payload: CreateSchema):
         new = Organization(name=payload.name, prefix=payload.prefix)
         self.add(new)
         return new.id

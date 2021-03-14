@@ -1,19 +1,19 @@
 from fastapi import APIRouter
 
-from repositories import OrganizationsRepository
+from services import OrganizationsService
 from schemas.organization import CreateSchema
 
-r = OrganizationsRepository()
+service = OrganizationsService()
 router = APIRouter(prefix='/organizations')
 
 
 @router.get('/')
 def get():
-    s = r.get_organizations()
+    s = service.get_organizations()
     return s
 
 
 @router.post('/')
 def create(payload: CreateSchema):
-    result = r.create_organizations(payload)
+    result = service.create(payload)
     return result

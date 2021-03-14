@@ -1,13 +1,13 @@
 from fastapi import APIRouter
 
-from repositories import UsersRepository
+from services import UsersService
 
 
-r = UsersRepository()
+service = UsersService()
 router = APIRouter(prefix='/users')
 
 
 @router.get('/')
 def users():
-    s = r.get_users()
+    s = service.get_users()
     return s
