@@ -6,7 +6,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 
 
-class BaseModel(object):
+Base = declarative_base()
+
+class Model(Base):
+
+    __abstract__ = True
 
     id = sa.Column(UUID, primary_key=True,
                    default=uuid.uuid4, unique=True, nullable=False)
@@ -19,5 +23,3 @@ class BaseModel(object):
     def default_value(column):
         return lambda cxt: cxt.get_current_parameters()[column]
 
-
-Model = declarative_base(cls=BaseModel)
