@@ -9,6 +9,14 @@ from models._utils import Model
 
 class Repository(abc.ABC):
     query: Query = None
+    session: Session = None
+
+    def add(self, instance):
+        self.session.add(instance)
+        self.session.commit()
+        self.session.refresh(instance)
+
+        return instance
 
     @abc.abstractmethod
     def get_model(self) -> Model:
@@ -19,11 +27,11 @@ def db_access(handler):
 
     @functools.wraps(handler)
     def wrapper(instance: Repository, *args, **kwargs):
-        session = Session(bind=engine)
-        instance.query = session.query(instance.get_model())
+        instance.session = Session(bind=engine)
+        instance.query = instance.session.query(instance.get_model())
         result = handler(instance, *args, **kwargs)
         instance.query = None
-        session.close()
+        instance.session.close()
 
         return result
 
