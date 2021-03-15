@@ -7,5 +7,5 @@ class UsersService(Service):
     def get_repository(self):
         return UsersRepository
 
-    def get_users(self, skip: int = 0, limit: int = 100):
-        return self.repository.get_users(skip, limit)
+    def get_users(self, **kwargs):
+        return self.repository.get_users(**kwargs)

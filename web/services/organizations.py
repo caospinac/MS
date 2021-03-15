@@ -8,8 +8,8 @@ class OrganizationsService(Service):
     def get_repository(self):
         return OrganizationsRepository
 
-    def get_organizations(self, skip: int = 0, limit: int = 100):
-        return self.repository.get_organizations(skip, limit)
+    def get_organizations(self, **kwargs):
+        return self.repository.get_organizations(**kwargs)
 
     def create(self, payload: CreateSchema):
         result = self.repository.create(payload)
