@@ -1,10 +1,9 @@
-from fastapi import APIRouter
-
 from services import UsersService
+from ._utils import Router
 
 
 service = UsersService()
-router = APIRouter(prefix='/users')
+router = Router(prefix='/users')
 
 
 @router.get('/')

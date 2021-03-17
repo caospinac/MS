@@ -1,10 +1,10 @@
-from fastapi import APIRouter
-
 from services import OrganizationsService
 from schemas.organization import CreateSchema
+from ._utils import Router
+
 
 service = OrganizationsService()
-router = APIRouter(prefix='/organizations')
+router = Router(prefix='/organizations')
 
 
 @router.get('/')
