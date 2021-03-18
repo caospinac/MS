@@ -9,11 +9,9 @@ router = Router(prefix='/organizations')
 
 @router.get('/')
 def get():
-    s = service.get_organizations()
-    return s
+    return service.get_organizations()
 
 
 @router.post('/')
 def create(payload: CreateSchema):
-    result = service.create(payload)
-    return result
+    return service.create(payload)

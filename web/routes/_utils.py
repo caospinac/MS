@@ -1,7 +1,7 @@
 from typing import Any, Callable
 import functools
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 
 class Router(APIRouter):
@@ -15,7 +15,14 @@ class Router(APIRouter):
 
         @functools.wraps(func)
         def wrapper(*argv, **kw):
-            r = func(*argv, **kw)
+            try:
+                r = func(*argv, **kw)
+            except Exception as e:
+                if isinstance(e, HTTPException):
+                    raise e
+
+                raise HTTPException(500) from e
+
             return {
                 'data': r
             }
