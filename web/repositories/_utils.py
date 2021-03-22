@@ -7,6 +7,21 @@ from db import engine
 from models._utils import Model
 
 
+def db_access(handler):
+
+    @functools.wraps(handler)
+    def wrapper(instance, *args, **kwargs):
+        instance.session = Session(bind=engine)
+        instance.query = instance.session.query(instance.get_model())
+        result = handler(instance, *args, **kwargs)
+        instance.query = None
+        instance.session.close()
+
+        return result
+
+    return wrapper
+
+
 class Repository(abc.ABC):
     query: Query = None
     session: Session = None
@@ -22,17 +37,10 @@ class Repository(abc.ABC):
     def get_model(self) -> Model:
         pass
 
+    @db_access
+    def get_all(self, skip: int = 0, limit: int = 100):
+        return self.query.offset(skip).limit(limit).all()
 
-def db_access(handler):
-
-    @functools.wraps(handler)
-    def wrapper(instance: Repository, *args, **kwargs):
-        instance.session = Session(bind=engine)
-        instance.query = instance.session.query(instance.get_model())
-        result = handler(instance, *args, **kwargs)
-        instance.query = None
-        instance.session.close()
-
-        return result
-
-    return wrapper
+    @db_access
+    def get_by_id(self, ident):
+        return self.query.get(ident)

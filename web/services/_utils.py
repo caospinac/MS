@@ -13,3 +13,9 @@ class Service(abc.ABC):
     @abc.abstractmethod
     def get_repository(self):
         pass
+
+    def get_all(self, **kwargs):
+        return self.repository.get_all(**kwargs)
+
+    def get_by_id(self, ident: str):
+        return self.repository.get_by_id(ident)

@@ -15,5 +15,5 @@ class OrganizationsRepository(Repository):
         return new.id
 
     @db_access
-    def get_organizations(self, skip: int = 0, limit: int = 100):
-        return self.query.offset(skip).limit(limit).all()
+    def get_by_prefix(self, prefix: str):
+        return self.query.filter_by(prefix=prefix).one_or_none()

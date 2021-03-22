@@ -8,4 +8,4 @@ router = Router(prefix='/users')
 
 @router.get('/')
 def users():
-    return service.get_users()
+    return service.get_all()
