@@ -11,9 +11,17 @@ class OrganizationsService(Service):
         return OrganizationsRepository
 
     def create(self, payload: CreateSchema):
+        from models import Organization, Role, User
+
         existing_org = self.repository.get_by_prefix(payload.prefix)
         if existing_org:
             raise HTTPException(400, 'Prefix not available')
 
-        result = self.repository.create(payload)
-        return result
+        organization = Organization(name=payload.name, prefix=payload.prefix)
+        role = Role(code='owner')
+        user = User(**payload.owner.__dict__)
+
+        role.users.append(user)
+        organization.roles.append(role)
+
+        return self.repository.add(organization)
