@@ -9,7 +9,8 @@ class CustomValue(Model):
 
     __tablename__ = 'custom_values'
 
-    custom_field_id = sa.Column(UUID, sa.ForeignKey('custom_fields.id'),
+    custom_field_id = sa.Column(UUID(as_uuid=True),
+                                sa.ForeignKey('custom_fields.id'),
                                 nullable=False)
     entity_id = sa.Column(sa.String, nullable=False)
     value = sa.Column(sa.String)

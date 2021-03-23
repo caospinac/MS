@@ -13,11 +13,13 @@ class CustomFieldType(enum.Enum):
     date = 'date'
     boolean = 'boolean'
 
+
 class CustomField(Model):
 
     __tablename__ = 'custom_fields'
 
-    organization_id = sa.Column(UUID, sa.ForeignKey('organizations.id'))
+    organization_id = sa.Column(
+        UUID(as_uuid=True), sa.ForeignKey('organizations.id'))
     entity = sa.Column(sa.String, nullable=False)
     name = sa.Column(sa.String, nullable=False)
     type = sa.Column(sa.Enum(CustomFieldType),

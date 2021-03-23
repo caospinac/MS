@@ -1,3 +1,5 @@
+import traceback
+
 from typing import Any, Callable
 import functools
 
@@ -18,6 +20,7 @@ class Router(APIRouter):
             try:
                 r = func(*argv, **kw)
             except Exception as e:
+                print(traceback.format_exc())
                 if isinstance(e, HTTPException):
                     raise e
 

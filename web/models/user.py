@@ -22,7 +22,8 @@ class User(Model):
     __tablename__ = 'users'
     _repr_hide = ['password']
 
-    external_id = sa.Column(sa.String, nullable=False)
+    external_id = sa.Column(sa.String, nullable=False,
+                            default=Model.default_value('id'))
     status = sa.Column(sa.Enum(UserStatus),
                        nullable=False, default='inactive')
     email = sa.Column(sa.String, nullable=False)
@@ -33,6 +34,7 @@ class User(Model):
     phone_number = sa.Column(sa.String)
     gender = sa.Column(sa.Enum(UserGender))
     avatar = sa.Column(sa.String)
-    role_id = sa.Column(UUID, sa.ForeignKey('roles.id'), nullable=False)
+    role_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey('roles.id'),
+                        nullable=False)
 
     role = relationship('Role', back_populates='users')
