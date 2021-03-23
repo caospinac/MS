@@ -29,7 +29,7 @@ class User(Model):
     password = sa.Column(sa.String, nullable=False)
     first_name = sa.Column(sa.String, nullable=False)
     last_name = sa.Column(sa.String, nullable=False)
-    birthdate = sa.Column(sa.DateTime)
+    birthdate = sa.Column(sa.Date)
     phone_number = sa.Column(sa.String)
     gender = sa.Column(sa.Enum(UserGender))
     avatar = sa.Column(sa.String)

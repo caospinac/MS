@@ -54,7 +54,7 @@ def upgrade():
         sa.Column('password', sa.String, nullable=False),
         sa.Column('first_name', sa.String, nullable=False),
         sa.Column('last_name', sa.String, nullable=False),
-        sa.Column('birthdate', sa.DateTime),
+        sa.Column('birthdate', sa.Date),
         sa.Column('phone_number', sa.String),
         sa.Column('gender', sa.Enum(UserGender)),
         sa.Column('avatar', sa.String),
