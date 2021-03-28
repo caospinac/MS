@@ -1,7 +1,7 @@
 import enum
 
 import sqlalchemy as sa
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 
 from ._utils import Model
 
@@ -23,3 +23,7 @@ class Organization(Model):
 
     roles = relationship('Role', back_populates='organization')
     custom_fields = relationship('CustomField', back_populates='organization')
+
+    @classmethod
+    def get_by_prefix(cls, db: Session, prefix: str):
+        return db.query(cls).filter_by(prefix=prefix).one_or_none()

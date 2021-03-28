@@ -1,11 +1,10 @@
-from services import UsersService
+from services import users as service
 from ._utils import Router
 
 
-service = UsersService()
 router = Router(prefix='/users')
 
 
 @router.get('/')
 def users():
-    return service.get_all()
+    return service.get_list()

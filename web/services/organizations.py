@@ -1,27 +1,31 @@
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
 
-from repositories import OrganizationsRepository
+from models import Organization, Role, User
 from schemas.organization import CreateSchema
-from ._utils import Service
+from db import use_db
 
 
-class OrganizationsService(Service):
+@use_db
+def create(payload: CreateSchema, db: Session=None):
 
-    def get_repository(self):
-        return OrganizationsRepository
+    existing_org = Organization.get_by_prefix(db, payload.prefix)
+    if existing_org:
+        raise HTTPException(400, 'Prefix not available')
 
-    def create(self, payload: CreateSchema):
-        from models import Organization, Role, User
+    organization = Organization(name=payload.name, prefix=payload.prefix)
+    role = Role(code='owner')
+    user = User(**payload.owner.__dict__)
 
-        existing_org = self.repository.get_by_prefix(payload.prefix)
-        if existing_org:
-            raise HTTPException(400, 'Prefix not available')
+    role.users.append(user)
+    organization.roles.append(role)
 
-        organization = Organization(name=payload.name, prefix=payload.prefix)
-        role = Role(code='owner')
-        user = User(**payload.owner.__dict__)
+    organization.save(db)
 
-        role.users.append(user)
-        organization.roles.append(role)
+    return organization
 
-        return self.repository.add(organization)
+
+@use_db
+def get_list(db: Session=None):
+
+    return Organization.get_list(db)

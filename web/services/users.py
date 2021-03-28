@@ -1,8 +1,10 @@
-from repositories import UsersRepository
-from ._utils import Service
+from sqlalchemy.orm import Session
+
+from models import User
+from db import use_db
 
 
-class UsersService(Service):
+@use_db
+def get_list(db: Session=None):
 
-    def get_repository(self):
-        return UsersRepository
+    return User.get_list(db)
