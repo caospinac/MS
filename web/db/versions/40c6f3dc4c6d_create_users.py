@@ -25,11 +25,7 @@ depends_on = None
 class UserStatus(enum.Enum):
     active = 'active'
     inactive = 'inactive'
-
-
-class UserGender(enum.Enum):
-    f = 'f'
-    m = 'm'
+    unverified = 'unverified'
 
 
 def get_general_columns():
@@ -49,14 +45,12 @@ def upgrade():
         *get_general_columns(),
         sa.Column('external_id', sa.String, nullable=False),
         sa.Column('status', sa.Enum(UserStatus),
-                  nullable=False, default='inactive'),
+                  nullable=False, default=UserStatus.unverified),
         sa.Column('email', sa.String, nullable=False),
-        sa.Column('password', sa.String, nullable=False),
+        sa.Column('password', sa.String),
         sa.Column('first_name', sa.String, nullable=False),
         sa.Column('last_name', sa.String, nullable=False),
-        sa.Column('birthdate', sa.Date),
         sa.Column('phone_number', sa.String),
-        sa.Column('gender', sa.Enum(UserGender)),
         sa.Column('avatar', sa.String),
         sa.Column('organization_id', UUID(as_uuid=True),
                   sa.ForeignKey('organizations.id'), nullable=False),
@@ -68,4 +62,3 @@ def upgrade():
 def downgrade():
     op.drop_table('users')
     sa.Enum(UserStatus).drop(op.get_bind(), checkfirst=False)
-    sa.Enum(UserGender).drop(op.get_bind(), checkfirst=False)

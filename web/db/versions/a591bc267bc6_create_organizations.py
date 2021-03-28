@@ -46,7 +46,7 @@ def upgrade():
         sa.Column('logo', sa.String),
         sa.Column('prefix', sa.String, nullable=False, unique=True),
         sa.Column('status', sa.Enum(OrganizationStatus),
-                  nullable=False, default='inactive'),
+                  nullable=False, default=OrganizationStatus.inactive),
     )
 
 

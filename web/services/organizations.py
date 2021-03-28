@@ -14,11 +14,14 @@ def create(payload: CreateSchema, db: Session=None):
         raise HTTPException(400, 'Prefix not available')
 
     organization = Organization(name=payload.name, prefix=payload.prefix)
-    role = Role(code='owner')
-    user = User(**payload.owner.__dict__)
+    ownerRole = Role(code='owner')
+    defaultRole = Role(code='default')
+    organization.roles.append(ownerRole)
+    organization.roles.append(defaultRole)
 
-    role.users.append(user)
-    organization.roles.append(role)
+    user = User(**payload.owner.__dict__)
+    user.role = ownerRole
+
     organization.users.append(user)
 
     organization.save(db)

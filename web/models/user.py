@@ -10,11 +10,7 @@ from ._utils import Model
 class UserStatus(enum.Enum):
     active = 'active'
     inactive = 'inactive'
-
-
-class UserGender(enum.Enum):
-    f = 'f'
-    m = 'm'
+    unverified = 'unverified'
 
 
 class User(Model):
@@ -25,14 +21,12 @@ class User(Model):
     external_id = sa.Column(sa.String, nullable=False,
                             default=Model.default_value('id'))
     status = sa.Column(sa.Enum(UserStatus),
-                       nullable=False, default='inactive')
+                       nullable=False, default='unverified')
     email = sa.Column(sa.String, nullable=False)
-    password = sa.Column(sa.String, nullable=False)
+    password = sa.Column(sa.String)
     first_name = sa.Column(sa.String, nullable=False)
     last_name = sa.Column(sa.String, nullable=False)
-    birthdate = sa.Column(sa.Date)
     phone_number = sa.Column(sa.String)
-    gender = sa.Column(sa.Enum(UserGender))
     avatar = sa.Column(sa.String)
     organization_id = sa.Column(UUID(as_uuid=True),
                                 sa.ForeignKey('organizations.id'),
