@@ -34,7 +34,11 @@ class User(Model):
     phone_number = sa.Column(sa.String)
     gender = sa.Column(sa.Enum(UserGender))
     avatar = sa.Column(sa.String)
+    organization_id = sa.Column(UUID(as_uuid=True),
+                                sa.ForeignKey('organizations.id'),
+                                nullable=False)
     role_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey('roles.id'),
                         nullable=False)
 
+    organization = relationship('Organization', back_populates='users')
     role = relationship('Role', back_populates='users')

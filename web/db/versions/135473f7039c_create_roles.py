@@ -23,7 +23,7 @@ depends_on = None
 
 def get_general_columns():
     return (
-        sa.Column('id', UUID, primary_key=True,
+        sa.Column('id', UUID(as_uuid=True), primary_key=True,
                   default=uuid.uuid4, unique=True, nullable=False),
         sa.Column('created_at', sa.DateTime, default=datetime.now),
         sa.Column('updated_at',
@@ -38,8 +38,8 @@ def upgrade():
         *get_general_columns(),
         sa.Column('name', sa.String, nullable=False),
         sa.Column('code', sa.String, nullable=False),
-        sa.Column('organization_id', UUID, sa.ForeignKey('organizations.id'),
-                  nullable=False)
+        sa.Column('organization_id', UUID(as_uuid=True),
+                  sa.ForeignKey('organizations.id'), nullable=False)
     )
 
 

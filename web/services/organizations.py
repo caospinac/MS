@@ -19,6 +19,7 @@ def create(payload: CreateSchema, db: Session=None):
 
     role.users.append(user)
     organization.roles.append(role)
+    organization.users.append(user)
 
     organization.save(db)
 
@@ -29,3 +30,8 @@ def create(payload: CreateSchema, db: Session=None):
 def get_list(db: Session=None):
 
     return Organization.get_list(db)
+
+
+@use_db
+def get(ident, db: Session=None):
+    return Organization.get(db, ident)

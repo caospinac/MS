@@ -22,7 +22,7 @@ depends_on = None
 
 def get_general_columns():
     return (
-        sa.Column('id', UUID, primary_key=True,
+        sa.Column('id', UUID(as_uuid=True), primary_key=True,
                   default=uuid.uuid4, unique=True, nullable=False),
         sa.Column('created_at', sa.DateTime, default=datetime.now),
         sa.Column('updated_at',
@@ -36,7 +36,8 @@ def upgrade():
         'custom_values',
         *get_general_columns(),
         sa.Column('custom_field_id',
-                  UUID, sa.ForeignKey('custom_fields.id'), nullable=False),
+                  UUID(as_uuid=True), sa.ForeignKey('custom_fields.id'),
+                  nullable=False),
         sa.Column('entity_id', sa.String, nullable=False),
         sa.Column('value', sa.String),
     )

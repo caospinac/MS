@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from services import organizations as service
 from schemas.organization import CreateSchema
 from ._utils import Router
@@ -7,8 +9,13 @@ router = Router(prefix='/organizations')
 
 
 @router.get('/')
-def get():
+def get_list():
     return service.get_list()
+
+
+@router.get('/{ident}')
+def get(ident: UUID):
+    return service.get(ident)
 
 
 @router.post('/')

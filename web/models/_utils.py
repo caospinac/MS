@@ -50,8 +50,12 @@ class Model(Base):
         return db.query(cls).get(ident)
 
     @classmethod
-    def get_list(cls, db: Session, skip: int = 0, limit: int = None):
-        query = db.query(cls).order_by(cls.created_at).offset(skip)
+    def get_list(cls, db: Session, *filters, skip: int = 0, limit: int = None):
+        query = db.query(cls)
+        for criteria in filters:
+            query = query.filter(criteria)
+
+        query = query.order_by(cls.created_at).offset(skip)
         if limit is not None:
             query = query.limit(limit)
 

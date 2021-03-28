@@ -29,7 +29,7 @@ class OrganizationStatus(enum.Enum):
 
 def get_general_columns():
     return (
-        sa.Column('id', UUID, primary_key=True,
+        sa.Column('id', UUID(as_uuid=True), primary_key=True,
                   default=uuid.uuid4, unique=True, nullable=False),
         sa.Column('created_at', sa.DateTime, default=datetime.now),
         sa.Column('updated_at',

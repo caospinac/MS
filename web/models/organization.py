@@ -21,6 +21,7 @@ class Organization(Model):
     status = sa.Column(sa.Enum(OrganizationStatus),
                        nullable=False, default='inactive')
 
+    users = relationship('User', back_populates='organization')
     roles = relationship('Role', back_populates='organization')
     custom_fields = relationship('CustomField', back_populates='organization')
 
