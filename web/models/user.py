@@ -2,7 +2,7 @@ import enum
 
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 
 from ._utils import Model
 
@@ -36,3 +36,15 @@ class User(Model):
 
     organization = relationship('Organization', back_populates='users')
     role = relationship('Role', back_populates='users')
+
+    @classmethod
+    def get_by_email(cls, db: Session, oid: str, email: str):
+        return db.query(cls)\
+            .filter_by(organization_id=oid, email=email)\
+            .one_or_none()
+
+    @classmethod
+    def get_by_external_id(cls, db: Session, oid: str, external_id: str):
+        return db.query(cls)\
+            .filter_by(organization_id=oid, external_id=external_id)\
+            .one_or_none()

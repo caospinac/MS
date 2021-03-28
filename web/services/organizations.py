@@ -14,8 +14,8 @@ def create(payload: CreateSchema, db: Session=None):
         raise HTTPException(400, 'Prefix not available')
 
     organization = Organization(name=payload.name, prefix=payload.prefix)
-    ownerRole = Role(code='owner')
-    defaultRole = Role(code='default')
+    ownerRole = Role(code=Role.C_OWNER)
+    defaultRole = Role(code=Role.C_DEFAULT)
     organization.roles.append(ownerRole)
     organization.roles.append(defaultRole)
 

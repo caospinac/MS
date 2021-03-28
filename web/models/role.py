@@ -1,11 +1,14 @@
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 
 from ._utils import Model
 
 
 class Role(Model):
+
+    C_DEFAULT='default'
+    C_OWNER='owner'
 
     __tablename__ = 'roles'
 
@@ -18,3 +21,9 @@ class Role(Model):
 
     organization = relationship('Organization', back_populates='roles')
     users = relationship('User', back_populates='role')
+
+    @classmethod
+    def get_by_code(cls, db: Session, oid: str, code: str):
+        return db.query(cls)\
+            .filter_by(organization_id=oid, code=code)\
+            .one_or_none()
