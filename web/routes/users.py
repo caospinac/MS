@@ -21,3 +21,13 @@ def create(oid: UUID, payload: CreateSchema):
 @router.put('/{ident}')
 def update(ident: UUID, payload: UpdateSchema):
     return service.update(ident, payload)
+
+
+@router.delete('/{ident}')
+def delete(ident: UUID):
+    return service.delete(ident)
+
+
+@router.patch('/{ident}/restore')
+def restore(ident: UUID):
+    return service.restore(ident)

@@ -33,7 +33,7 @@ def create(oid: str, payload: CreateSchema, db: Session = None):
     role_code = payload.role_code or Role.C_DEFAULT
     role = Role.get_by_code(db, oid, role_code)
     if role is None:
-        raise HTTPException(404, f'The role code {role_code} does not exists')
+        raise HTTPException(404, f'The role code {role_code} does not exist')
 
     user = User(
         organization=org,
@@ -66,11 +66,33 @@ def update(ident: str, payload: UpdateSchema, db: Session = None):
         role = Role.get_by_code(db, oid, payload.role_code)
         if role is None:
             raise HTTPException(
-                404, f'The role code {payload.role_code} does not exists')
+                404, f'The role code {payload.role_code} does not exist')
 
     for key in payload.__fields_set__:
         setattr(user, key, getattr(payload, key))
 
     user.update(db)
+
+    return user
+
+
+@use_db
+def delete(ident: str, db: Session = None):
+    user: User.get(db, ident)
+    if user is None:
+        raise HTTPException(404, 'User not found')
+
+    user.delete(db)
+
+
+@use_db
+def restore(ident: str, db: Session = None):
+    user = User.get(db, ident)
+    if user is not None:
+        raise HTTPException(400, 'Nothing to restore')
+
+    user = User.restore(db, ident)
+    if user is None:
+        raise HTTPException(400, 'The user cannot be found in the database')
 
     return user

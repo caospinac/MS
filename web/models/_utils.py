@@ -58,16 +58,20 @@ class Model(Base):
         pass
 
     def delete(self, db: Session, logic=True, commit=True):
-        db.delete(self)
         if logic:
             self.deleted_at = datetime.now()
-
-        if commit:
-            db.commit()
+            if commit:
+                db.commit()
+                db.refresh(self)
+        else:
+            db.delete(self)
 
     @classmethod
     def restore(cls, db: Session, ident, commit=True):
-        el: Model = db.query(cls).get(ident)
+        el: cls = db.query(cls).get(ident)
+        if el is None:
+            return None
+
         el.deleted_at = None
         if commit:
             db.commit()
@@ -77,7 +81,8 @@ class Model(Base):
 
     @classmethod
     def get(cls, db: Session, ident):
-        return db.query(cls).get(ident)
+        el: cls = db.query(cls).get(ident)
+        return el if el.deleted_at is None else None
 
     @classmethod
     def get_list(cls, db: Session, *filters, skip: int = 0, limit: int = None):
@@ -85,6 +90,7 @@ class Model(Base):
         for criteria in filters:
             query = query.filter(criteria)
 
+        query = query.filter(cls.deleted_at is None)
         query = query.order_by(cls.created_at).offset(skip)
         if limit is not None:
             query = query.limit(limit)
@@ -93,7 +99,11 @@ class Model(Base):
         return result
 
     @classmethod
-    def count(cls, db: Session):
+    def count(cls, db: Session, *filters):
         query = db.query(cls)
+
+        query = query.filter(cls.deleted_at is None)
+        for criteria in filters:
+            query = query.filter(criteria)
 
         return query.count()
