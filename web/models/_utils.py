@@ -32,11 +32,11 @@ class Model(Base):
         if commit:
             try:
                 db.commit()
+                db.refresh(self)
             except Exception as e:
                 db.rollback()
                 raise e
 
-        db.refresh(self)
         self.after_save()
 
     def before_save(self, *args, **kwargs):
@@ -44,6 +44,36 @@ class Model(Base):
 
     def after_save(self, *args, **kwargs):
         pass
+
+    def update(self, db: Session):
+        self.before_update()
+        db.commit()
+        db.refresh(self)
+        self.after_update()
+
+    def before_update(self, *args, **kwargs):
+        pass
+
+    def after_update(self, *args, **kwargs):
+        pass
+
+    def delete(self, db: Session, logic=True, commit=True):
+        db.delete(self)
+        if logic:
+            self.deleted_at = datetime.now()
+
+        if commit:
+            db.commit()
+
+    @classmethod
+    def restore(cls, db: Session, ident, commit=True):
+        el: Model = db.query(cls).get(ident)
+        el.deleted_at = None
+        if commit:
+            db.commit()
+            db.refresh(el)
+
+        return el
 
     @classmethod
     def get(cls, db: Session, ident):
