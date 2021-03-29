@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from services import users as service
-from schemas.user import CreateSchema
+from schemas.user import CreateSchema, UpdateSchema
 from ._utils import Router
 
 
@@ -16,3 +16,8 @@ def users(oid: UUID):
 @router.post('/')
 def create(oid: UUID, payload: CreateSchema):
     return service.create(oid, payload)
+
+
+@router.put('/{ident}')
+def update(ident: UUID, payload: UpdateSchema):
+    return service.update(ident, payload)

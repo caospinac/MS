@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from schemas.user import CreateSchema
+from schemas.user import CreateSchema, UpdateSchema
 
 from models import Organization, Role, User
 from db import use_db
@@ -46,5 +46,31 @@ def create(oid: str, payload: CreateSchema, db: Session = None):
     )
 
     user.save(db)
+
+    return user
+
+
+@use_db
+def update(ident: str, payload: UpdateSchema, db: Session = None):
+    user: User = User.get(db, ident)
+    if user is None:
+        raise HTTPException(404, 'User not found')
+
+    oid = user.organization_id
+    if payload.external_id:
+        user = User.get_by_external_id(db, oid, payload.external_id)
+        if user is not None and user.id != ident:
+            raise HTTPException(400, 'The given ID already exists')
+
+    if payload.role_code:
+        role = Role.get_by_code(db, oid, payload.role_code)
+        if role is None:
+            raise HTTPException(
+                404, f'The role code {payload.role_code} does not exists')
+
+    for key in payload.__fields_set__:
+        setattr(user, key, getattr(payload, key))
+
+    user.update(db)
 
     return user
