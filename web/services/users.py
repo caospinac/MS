@@ -30,7 +30,7 @@ def create(oid: str, payload: CreateSchema, db: Session = None):
         if user is not None:
             raise HTTPException(400, 'The given ID already exists')
 
-    role_code = payload.role_code or Role.C_DEFAULT
+    role_code = payload.role_code or Role.CODE_DEFAULT
     role = Role.get_by_code(db, oid, role_code)
     if role is None:
         raise HTTPException(404, f'The role code {role_code} does not exist')

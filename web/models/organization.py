@@ -13,6 +13,9 @@ class OrganizationStatus(enum.Enum):
 
 class Organization(Model):
 
+    STATUS_ACTIVE = OrganizationStatus.active
+    STATUS_INACTIVE = OrganizationStatus.inactive
+
     __tablename__ = 'organizations'
 
     name = sa.Column(sa.String, nullable=False)

@@ -16,6 +16,11 @@ class CustomFieldType(enum.Enum):
 
 class CustomField(Model):
 
+    TYPE_TEXT = CustomFieldType.text
+    TYPE_NUMBER = CustomFieldType.number
+    TYPE_DATE = CustomFieldType.date
+    TYPE_BOOLEAN = CustomFieldType.boolean
+
     __tablename__ = 'custom_fields'
 
     organization_id = sa.Column(

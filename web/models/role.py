@@ -7,8 +7,8 @@ from ._utils import Model
 
 class Role(Model):
 
-    C_DEFAULT='default'
-    C_OWNER='owner'
+    CODE_DEFAULT = 'default'
+    CODE_OWNER = 'owner'
 
     __tablename__ = 'roles'
 

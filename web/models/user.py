@@ -15,6 +15,10 @@ class UserStatus(enum.Enum):
 
 class User(Model):
 
+    STATUS_ACTIVE = UserStatus.active
+    STATUS_INACTIVE = UserStatus.inactive
+    STATUS_UNVERIFIED = UserStatus.unverified
+
     __tablename__ = 'users'
     _repr_hide = ['password']
 

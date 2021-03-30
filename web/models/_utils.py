@@ -28,7 +28,6 @@ class Model(Base):
     def save(self, db: Session, commit=True):
         self.before_save()
         db.add(self)
-
         if commit:
             try:
                 db.commit()
@@ -80,17 +79,24 @@ class Model(Base):
         return el
 
     @classmethod
-    def get(cls, db: Session, ident):
+    def get(cls, db: Session, ident, include_deleted=False):
         el: cls = db.query(cls).get(ident)
-        return el if el.deleted_at is None else None
+
+        if el is None or include_deleted and el.deleted_at is not None:
+            return None
+
+        return el
 
     @classmethod
-    def get_list(cls, db: Session, *filters, skip: int = 0, limit: int = None):
+    def get_list(cls, db: Session, *filters, skip: int = 0, limit: int = None,
+                 include_deleted=False):
         query = db.query(cls)
         for criteria in filters:
             query = query.filter(criteria)
 
-        query = query.filter(cls.deleted_at is None)
+        if not include_deleted:
+            query = query.filter_by(deleted_at=None)
+
         query = query.order_by(cls.created_at).offset(skip)
         if limit is not None:
             query = query.limit(limit)
@@ -99,10 +105,11 @@ class Model(Base):
         return result
 
     @classmethod
-    def count(cls, db: Session, *filters):
+    def count(cls, db: Session, *filters, include_deleted=False):
         query = db.query(cls)
+        if not include_deleted:
+            query = query.filter_by(deleted_at=None)
 
-        query = query.filter(cls.deleted_at is None)
         for criteria in filters:
             query = query.filter(criteria)
 
