@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from services import organizations as service
-from schemas.organization import CreateSchema
+from schemas.organization import CreateSchema, CompleteCreationSchema
 from ._utils import Router
 
 
@@ -21,3 +21,8 @@ def get(ident: UUID):
 @router.post('/')
 def create(payload: CreateSchema):
     return service.create(payload)
+
+
+@router.post('/{ident}/verify')
+def complete_creation(ident: UUID, payload: CompleteCreationSchema):
+    return service.complete_creation(ident, payload)

@@ -11,3 +11,7 @@ class CreateSchema(BaseModel):
     prefix: str
     name: str
     owner: OwnerUser
+
+
+class CompleteCreationSchema(BaseModel):
+    password: str
