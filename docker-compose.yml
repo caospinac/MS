@@ -5,7 +5,8 @@ services:
   web:
     image: web
     build:
-      context: ./web
+      context: .
+      dockerfile: web/Dockerfile
     working_dir: /app/web
     volumes:
       - .:/app

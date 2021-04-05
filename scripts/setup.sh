@@ -4,20 +4,12 @@ if [ ! -f .env ]; then
     cp .env.template .env
 fi
 
-docker-compose build
-
-if [ ! -d web/.venv ]; then
-    python3 -m venv web/.venv
-    web/.venv/bin/pip install --upgrade pip
-fi
-
-web/.venv/bin/pip install -r web/requirements-dev.txt
-web/.venv/bin/pip install -r web/requirements.txt
+poetry install
 
 ALEMBIC_DIR="web/db"
 
 if [ ! -d $ALEMBIC_DIR ]; then
-    web/.venv/bin/python -m alembic init $ALEMBIC_DIR
+    .venv/bin/python -m alembic init $ALEMBIC_DIR
     sed -i '1 i\# pylint: disable=no-member' "$ALEMBIC_DIR/env.py"
 fi
 

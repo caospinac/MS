@@ -1,17 +1,26 @@
-FROM python:3.8-alpine
+FROM python:3.9-alpine
 
-WORKDIR /app/
+ARG APP_ENV
+WORKDIR /web/
 
-ENV VIRTUAL_ENV=/opt/venv
-RUN python3 -m venv $VIRTUAL_ENV
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+ENV APP_ENV=${APP_ENV}}
+ENV POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
 
-RUN apk update && apk add postgresql-dev gcc g++ python3-dev musl-dev libffi-dev
+ENV PATH=$POETRY_HOME/bin:$VENV_PATH/bin:$PATH
 
-COPY ./requirements*.txt /app/
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt -r requirements-dev.txt
+RUN apk update && apk add postgresql-dev gcc g++ python3-dev musl-dev libffi-dev curl
 
-COPY . .
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+
+COPY poetry.lock pyproject.toml /web/
+
+RUN poetry config virtualenvs.create false
+RUN poetry install --no-interaction --no-ansi $(test $APP_ENV == prod && echo "--no-dev")
+
+COPY web/ .
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--reload"]

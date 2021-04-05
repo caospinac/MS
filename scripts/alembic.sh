@@ -6,4 +6,4 @@ for i in "$@"; do
     PARAMS="$PARAMS \"${i//\"/\\\"}\""
 done
 
-bash -c "web/.venv/bin/python -m alembic $PARAMS"
+bash -c ".venv/bin/python -m alembic $PARAMS"

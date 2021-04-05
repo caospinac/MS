@@ -4,6 +4,6 @@
     ],
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.pythonPath": "web/.venv/bin/python3",
+    "python.pythonPath": ".venv/bin/python3",
     "editor.rulers": [80],
 }
