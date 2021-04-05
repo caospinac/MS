@@ -6,7 +6,7 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apk update && apk add postgresql-dev gcc g++ python3-dev musl-dev libffi-dev
 
 COPY ./requirements*.txt /app/
 RUN pip install --upgrade pip

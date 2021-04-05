@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from schemas.user import CreateSchema, UpdateSchema
+from schemas.user import CreateSchema, UpdateSchema, UpdatePasswordSchema
 
 from models import Organization, Role, User
 from db import use_db
@@ -96,3 +96,20 @@ def restore(ident: str, db: Session = None):
         raise HTTPException(400, 'The user cannot be found in the database')
 
     return user
+
+
+@use_db
+def update_password(ident: str, payload: UpdatePasswordSchema,
+                    db: Session = None):
+    user = User.get(db, ident)
+    if user is None:
+        raise HTTPException(404, 'User not found')
+
+    if user.status != User.STATUS_ACTIVE:
+        raise HTTPException(400, 'User is not active')
+
+    if not user.check_password(payload.old_password):
+        raise HTTPException(401, 'Invalid password')
+
+    user.set_password(payload.new_password)
+    user.save(db)

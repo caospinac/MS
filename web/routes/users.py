@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from services import users as service
-from schemas.user import CreateSchema, UpdateSchema
+from schemas.user import CreateSchema, UpdateSchema, UpdatePasswordSchema
 from ._utils import Router
 
 
@@ -31,3 +31,8 @@ def delete(ident: UUID):
 @router.patch('/{ident}/restore')
 def restore(ident: UUID):
     return service.restore(ident)
+
+
+@router.put('/{ident}/password')
+def update_password(ident: UUID, payload: UpdatePasswordSchema):
+    return service.update_password(ident, payload)

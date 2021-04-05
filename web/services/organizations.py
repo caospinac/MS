@@ -50,7 +50,7 @@ def complete_creation(ident, payload: CompleteCreationSchema, db: Session=None):
 
     org.status = Organization.STATUS_ACTIVE
     owner.status = User.STATUS_ACTIVE
-    owner.password = payload.password
+    owner.set_password(payload.password)
 
     org.update(db)
 

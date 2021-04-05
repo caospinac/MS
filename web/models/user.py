@@ -1,9 +1,11 @@
 import enum
 
+import bcrypt
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, Session
 
+from lib.const import DEFAULT_ROUNDS
 from ._utils import Model
 
 
@@ -40,6 +42,21 @@ class User(Model):
 
     organization = relationship('Organization', back_populates='users')
     role = relationship('Role', back_populates='users')
+
+    def set_password(self, new_password: str):
+        if not new_password:
+            raise Exception('Passwords cannot be empty')
+
+        salt = bcrypt.gensalt(rounds=DEFAULT_ROUNDS)
+        password = bcrypt.hashpw(new_password.encode('utf-8'), salt)
+        self.password = password.decode('utf-8')
+
+    def check_password(self, plain_pw: str) -> bool:
+        if not self.password:
+            raise Exception('Password not set')
+
+        return bcrypt.checkpw(plain_pw.encode('utf-8'),
+                              self.password.encode('utf-8'))
 
     @classmethod
     def get_by_email(cls, db: Session, oid: str, email: str):
