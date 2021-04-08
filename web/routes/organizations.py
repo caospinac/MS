@@ -5,7 +5,7 @@ from schemas.organization import CreateSchema, CompleteCreationSchema
 from ._utils import Router
 
 
-router = Router(prefix='/organizations')
+router = Router(prefix='/v1/organizations')
 
 
 @router.get('/')

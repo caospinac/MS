@@ -5,7 +5,7 @@ from .users import router as usersRouter
 from .organizations import router as organizationsRouter
 
 
-router = APIRouter(prefix='/v1')
+router = APIRouter()
 
 
 @router.get('/health')

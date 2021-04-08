@@ -30,4 +30,6 @@ class Organization(Model):
 
     @classmethod
     def get_by_prefix(cls, db: Session, prefix: str):
-        return db.query(cls).filter_by(prefix=prefix).one_or_none()
+        result: cls = db.query(cls).filter_by(prefix=prefix).one_or_none()
+
+        return result

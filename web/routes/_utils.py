@@ -1,3 +1,4 @@
+from inspect import iscoroutinefunction
 import traceback
 
 from typing import Any, Callable
@@ -16,9 +17,13 @@ class Router(APIRouter):
     def handle_endpoint(self, func: Callable[..., Any]) -> Callable[..., Any]:
 
         @functools.wraps(func)
-        def wrapper(*argv, **kw):
+        async def wrapper(*argv, **kw):
             try:
-                r = func(*argv, **kw)
+                if iscoroutinefunction(func):
+                    r = await func(*argv, **kw)
+                else:
+                    r = func(*argv, **kw)
+
             except Exception as e:
                 print(traceback.format_exc())
                 if isinstance(e, HTTPException):

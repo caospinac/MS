@@ -64,12 +64,16 @@ class User(Model):
 
     @classmethod
     def get_by_email(cls, db: Session, oid: str, email: str):
-        return db.query(cls)\
+        result: cls = db.query(cls)\
             .filter_by(organization_id=oid, email=email)\
             .one_or_none()
 
+        return result
+
     @classmethod
     def get_by_external_id(cls, db: Session, oid: str, external_id: str):
-        return db.query(cls)\
+        result: cls = db.query(cls)\
             .filter_by(organization_id=oid, external_id=external_id)\
             .one_or_none()
+
+        return result

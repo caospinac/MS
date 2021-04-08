@@ -24,6 +24,8 @@ class Role(Model):
 
     @classmethod
     def get_by_code(cls, db: Session, oid: str, code: str):
-        return db.query(cls)\
+        result: cls = db.query(cls)\
             .filter_by(organization_id=oid, code=code)\
             .one_or_none()
+
+        return result

@@ -5,7 +5,7 @@ from schemas.user import CreateSchema, UpdateSchema, UpdatePasswordSchema
 from ._utils import Router
 
 
-router = Router(prefix='/users')
+router = Router(prefix='/v1/users')
 
 
 @router.get('/')
