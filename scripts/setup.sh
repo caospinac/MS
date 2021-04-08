@@ -5,6 +5,7 @@ if [ ! -f .env ]; then
 fi
 
 poetry install
+docker-compose build
 
 ALEMBIC_DIR="web/db"
 

@@ -109,7 +109,7 @@ def update_password(ident: str, payload: UpdatePasswordSchema,
         raise HTTPException(400, 'User is not active')
 
     if not user.check_password(payload.old_password):
-        raise HTTPException(401, 'Invalid password')
+        raise HTTPException(403, 'Invalid password')
 
     user.set_password(payload.new_password)
     user.save(db)

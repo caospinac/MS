@@ -43,6 +43,10 @@ class User(Model):
     organization = relationship('Organization', back_populates='users')
     role = relationship('Role', back_populates='users')
 
+    @staticmethod
+    def dummy_password_check():
+        bcrypt.hashpw(b'', bcrypt.gensalt(rounds=DEFAULT_ROUNDS))
+
     def set_password(self, new_password: str):
         if not new_password:
             raise Exception('Passwords cannot be empty')
