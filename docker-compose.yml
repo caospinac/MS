@@ -14,12 +14,14 @@ services:
       - 8000:8000
     depends_on:
       - db
+      - redis
     links:
       - db
     env_file:
       - .env
     environment:
       - DB_HOST=db
+      - REDIS_HOST=redis
 
   db:
     image: postgres:latest
@@ -30,11 +32,15 @@ services:
     env_file:
       - .env
     environment:
+      - APP_NAME=superuser
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - POSTGRES_DB=${POSTGRES_DB:-superuser}
     ports:
       - ${POSTGRES_PORT:-5432}:5432
+    
+  redis:
+    image: redis:latest
 
   pgadmin:
     image: dpage/pgadmin4
