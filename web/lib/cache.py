@@ -3,10 +3,10 @@ import json
 
 from redis import Redis
 
-from lib.const import REDIS_HOST
+from lib.const import REDIS_HOST, REDIS_PASSWORD
 
 
-client = Redis(host=REDIS_HOST)
+client = Redis(host=REDIS_HOST, password=REDIS_PASSWORD)
 
 
 def save(key: str, payload):

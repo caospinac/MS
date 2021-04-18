@@ -20,8 +20,10 @@ services:
     env_file:
       - .env
     environment:
+      - APP_NAME=${APP_NAME:-superuser}
       - DB_HOST=db
       - REDIS_HOST=redis
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis}
 
   db:
     image: postgres:latest
@@ -32,7 +34,6 @@ services:
     env_file:
       - .env
     environment:
-      - APP_NAME=superuser
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - POSTGRES_DB=${POSTGRES_DB:-superuser}
@@ -41,6 +42,11 @@ services:
     
   redis:
     image: redis:latest
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis}
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis}
+    env_file:
+      - .env
 
   pgadmin:
     image: dpage/pgadmin4
