@@ -1,8 +1,10 @@
+import secrets
+
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from schemas.auth import LoginSchema
-from lib.auth import generate_token, generate_refresh_token
+from lib import Jwt, Redis
 from models import Organization, User
 from db import use_db
 
@@ -23,8 +25,18 @@ def authenticate(oid: str, payload: LoginSchema, db: Session = None):
     if err:
         raise HTTPException(403, 'Incorrect credentials')
 
-    token, expires_at = generate_token(str(user.id))
-    refresh_token = generate_refresh_token(str(user.id))
+    sid = secrets.token_hex(4)
+    uid = str(user.id)
+    token, expires_at = Jwt.generate_token(uid, sid)
+    refresh_token = Jwt.generate_refresh_token(uid, sid)
+
+    Redis.save(
+        Redis.build_key('session', uid, sid),
+        {
+            # user info
+            'id': uid,
+        },
+    )
 
     return {
         'token': token,

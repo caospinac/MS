@@ -9,8 +9,12 @@ from lib.const import REDIS_HOST, REDIS_PASSWORD
 client = Redis(host=REDIS_HOST, password=REDIS_PASSWORD)
 
 
-def save(key: str, payload):
-    client.set(key, json.dumps(payload))
+def build_key(*sections):
+    return '_'.join(filter(bool, sections))
+
+
+def save(key: str, payload, **kwargs):
+    client.set(key, json.dumps(payload), **kwargs)
 
 
 def load(key: str):
