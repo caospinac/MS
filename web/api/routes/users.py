@@ -2,7 +2,7 @@ from uuid import UUID
 
 from services import users as service
 from schemas.user import CreateSchema, UpdateSchema, UpdatePasswordSchema
-from ._utils import Router
+from api.utils import Router
 
 
 router = Router(prefix='/v1/users')

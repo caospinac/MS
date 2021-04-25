@@ -2,7 +2,7 @@ from uuid import UUID
 
 from services import organizations as service
 from schemas.organization import CreateSchema, CompleteCreationSchema
-from ._utils import Router
+from api.utils import Router
 
 
 router = Router(prefix='/v1/organizations')

@@ -7,6 +7,7 @@ from lib.const import (
     REFRESH_ACCESS_TOKEN_KEY,
     TOKEN_EXPIRATION_SEC,
 )
+from schemas.jwt import TokenData
 
 
 def generate_token(user_id: str, sid: str):
@@ -24,8 +25,10 @@ def generate_token(user_id: str, sid: str):
     return token, exp
 
 
-def verify_token(encoded_data: str) -> dict:
-    return jwt.decode(encoded_data, ACCESS_TOKEN_KEY, algorithm='HS256')
+def verify_token(encoded_data: str) -> TokenData:
+    data = jwt.decode(encoded_data, ACCESS_TOKEN_KEY, algorithms=['HS256'])
+
+    return TokenData(**data)
 
 
 def generate_refresh_token(user_id: str, sid: str):
@@ -40,4 +43,7 @@ def generate_refresh_token(user_id: str, sid: str):
 
 
 def verify_refresh_token(encoded_data: str) -> dict:
-    return jwt.decode(encoded_data, REFRESH_ACCESS_TOKEN_KEY, algorithm='HS256')
+    data = jwt.decode(encoded_data, REFRESH_ACCESS_TOKEN_KEY,
+                      algorithms=['HS256'])
+
+    return TokenData(**data)

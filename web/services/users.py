@@ -15,6 +15,14 @@ def get_list(oid: str, db: Session = None):
     return org.users
 
 
+def get(db: Session, ident: str):
+    user = User.get(db, ident)
+    if user is None:
+        raise HTTPException(404, 'User not found')
+
+    return user
+
+
 @use_db
 def create(oid: str, payload: CreateSchema, db: Session = None):
     org: Organization = Organization.get(db, oid)
