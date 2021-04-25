@@ -9,7 +9,7 @@ class CreateSchema(BaseModel):
     first_name: str
     last_name: str
     phone_number: Optional[str]
-    role_code: Optional[str]
+    role: Optional[str]
 
 
 class UpdateSchema(BaseModel):
@@ -17,7 +17,7 @@ class UpdateSchema(BaseModel):
     first_name: Optional[str]
     last_name: Optional[str]
     phone_number: Optional[str]
-    role_code: Optional[str]
+    role: Optional[str]
 
 
 class UpdatePasswordSchema(BaseModel):

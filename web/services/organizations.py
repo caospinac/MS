@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from models import Organization, Role, User
+from models import Organization, User
 from schemas.organization import CreateSchema, CompleteCreationSchema
 from db import use_db
 
@@ -14,13 +14,7 @@ def create(payload: CreateSchema, db: Session=None):
         raise HTTPException(400, 'Prefix not available')
 
     organization = Organization(name=payload.name, prefix=payload.prefix)
-    ownerRole = Role(code=Role.CODE_OWNER)
-    defaultRole = Role(code=Role.CODE_DEFAULT)
-    organization.roles.append(ownerRole)
-    organization.roles.append(defaultRole)
-
-    user = User(**payload.owner.__dict__)
-    user.role = ownerRole
+    user = User(**payload.owner.__dict__, role=User.ROLE_BASIC)
 
     organization.users.append(user)
 

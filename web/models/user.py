@@ -15,11 +15,21 @@ class UserStatus(enum.Enum):
     unverified = 'unverified'
 
 
+class UserRoles(enum.Enum):
+    owner = 'owner'
+    admin = 'admin'
+    basic = 'basic'
+
+
 class User(Model):
 
     STATUS_ACTIVE = UserStatus.active
     STATUS_INACTIVE = UserStatus.inactive
     STATUS_UNVERIFIED = UserStatus.unverified
+
+    ROLE_OWNER = UserRoles.owner
+    ROLE_ADMIN = UserRoles.admin
+    ROLE_BASIC = UserRoles.basic
 
     __tablename__ = 'users'
     _repr_hide = ['password']
@@ -27,7 +37,9 @@ class User(Model):
     external_id = sa.Column(sa.String, nullable=False,
                             default=Model.default_value('id'))
     status = sa.Column(sa.Enum(UserStatus),
-                       nullable=False, default='unverified')
+                       nullable=False, default=UserStatus.unverified)
+    role = sa.Column(sa.Enum(UserRoles),
+                     nullable=False, default=UserRoles.basic)
     email = sa.Column(sa.String, nullable=False)
     password = sa.Column(sa.String)
     first_name = sa.Column(sa.String, nullable=False)
@@ -37,11 +49,8 @@ class User(Model):
     organization_id = sa.Column(UUID(as_uuid=True),
                                 sa.ForeignKey('organizations.id'),
                                 nullable=False)
-    role_id = sa.Column(UUID(as_uuid=True), sa.ForeignKey('roles.id'),
-                        nullable=False)
 
     organization = relationship('Organization', back_populates='users')
-    role = relationship('Role', back_populates='users')
 
     @staticmethod
     def dummy_password_check():
