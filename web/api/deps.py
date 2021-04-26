@@ -1,4 +1,4 @@
-import models
+from typing import Generator
 
 from fastapi import Security, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -7,10 +7,11 @@ from sqlalchemy.orm import Session
 from schemas.jwt import TokenData
 from lib import Jwt, Redis
 from db.utils import get_session
+import models
 from services import users
 
 
-def get_db():
+def get_db() -> Generator:
     try:
         db = get_session()
         yield db

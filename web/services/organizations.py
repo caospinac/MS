@@ -1,14 +1,13 @@
+from uuid import UUID
+
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from models import Organization, User
 from schemas.organization import CreateSchema, CompleteCreationSchema
-from db import use_db
 
 
-@use_db
-def create(payload: CreateSchema, db: Session=None):
-
+def create(db: Session, payload: CreateSchema):
     existing_org = Organization.get_by_prefix(db, payload.prefix)
     if existing_org:
         raise HTTPException(400, 'Prefix not available')
@@ -23,19 +22,16 @@ def create(payload: CreateSchema, db: Session=None):
     return organization
 
 
-@use_db
-def get_list(db: Session=None):
-
+def get_list(db: Session):
     return Organization.get_list(db)
 
 
-@use_db
-def get(ident, db: Session=None):
+def get(db: Session, ident: UUID):
     return Organization.get(db, ident)
 
 
-@use_db
-def complete_creation(ident, payload: CompleteCreationSchema, db: Session=None):
+def complete_creation(db: Session, ident: UUID,
+                      payload: CompleteCreationSchema):
     org = Organization.get(db, ident)
     if org is None:
         raise HTTPException(404, 'Organization not found')

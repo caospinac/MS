@@ -3,11 +3,9 @@ from sqlalchemy.orm import Session
 from schemas.user import CreateSchema, UpdateSchema, UpdatePasswordSchema
 
 from models import Organization, User
-from db import use_db
 
 
-@use_db
-def get_list(oid: str, db: Session = None):
+def get_list(db: Session, oid: str):
     org = Organization.get(db, oid)
     if org is None:
         raise HTTPException(404, 'Organization not found')
@@ -23,8 +21,7 @@ def get(db: Session, ident: str):
     return user
 
 
-@use_db
-def create(oid: str, payload: CreateSchema, db: Session = None):
+def create(db: Session, oid: str, payload: CreateSchema):
     org: Organization = Organization.get(db, oid)
     if org is None:
         raise HTTPException(404, 'Organization not found')
@@ -53,8 +50,7 @@ def create(oid: str, payload: CreateSchema, db: Session = None):
     return user
 
 
-@use_db
-def update(ident: str, payload: UpdateSchema, db: Session = None):
+def update(db: Session, ident: str, payload: UpdateSchema):
     user: User = User.get(db, ident)
     if user is None:
         raise HTTPException(404, 'User not found')
@@ -73,8 +69,7 @@ def update(ident: str, payload: UpdateSchema, db: Session = None):
     return user
 
 
-@use_db
-def delete(ident: str, db: Session = None):
+def delete(db: Session, ident: str):
     user: User.get(db, ident)
     if user is None:
         raise HTTPException(404, 'User not found')
@@ -82,8 +77,7 @@ def delete(ident: str, db: Session = None):
     user.delete(db)
 
 
-@use_db
-def restore(ident: str, db: Session = None):
+def restore(db: Session, ident: str):
     user = User.get(db, ident)
     if user is not None:
         raise HTTPException(400, 'Nothing to restore')
@@ -95,9 +89,7 @@ def restore(ident: str, db: Session = None):
     return user
 
 
-@use_db
-def update_password(ident: str, payload: UpdatePasswordSchema,
-                    db: Session = None):
+def update_password(db: Session, ident: str, payload: UpdatePasswordSchema):
     user = User.get(db, ident)
     if user is None:
         raise HTTPException(404, 'User not found')

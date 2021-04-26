@@ -6,11 +6,9 @@ from sqlalchemy.orm import Session
 from schemas.auth import LoginSchema
 from lib import Jwt, Redis
 from models import Organization, User
-from db import use_db
 
 
-@use_db
-def authenticate(oid: str, payload: LoginSchema, db: Session = None):
+def authenticate(db: Session, oid: str, payload: LoginSchema):
     org = Organization.get(db, oid)
     if org is None:
         raise HTTPException(404, 'Organization not found')
