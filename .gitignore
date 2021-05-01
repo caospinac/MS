@@ -1,4 +1,3 @@
 data/
 .venv
-.env
-alembic.ini
+.env.local

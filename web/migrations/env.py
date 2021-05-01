@@ -1,4 +1,5 @@
 # pylint: disable=no-member
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -32,8 +33,14 @@ target_metadata = MetaData(
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
-# my_important_option = config.get_main_option("my_important_option")
+# my_important_option = config.get_main_option('my_important_option')
 # ... etc.
+print('**********************', os.environ.get('DB_NAME'))
+section = config.config_ini_section
+config.set_section_option(section, 'DB_USER', os.environ.get('DB_USER'))
+config.set_section_option(section, 'DB_PASSWORD', os.environ.get('DB_PASSWORD'))
+config.set_section_option(section, 'DB_HOST', os.environ.get('DB_HOST'))
+config.set_section_option(section, 'DB_NAME', os.environ.get('DB_NAME'))
 
 
 def run_migrations_offline():

@@ -4,11 +4,11 @@ from fastapi import Security, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 
+import models
+from services import users
 from schemas.jwt import TokenData
 from lib import Jwt, Redis
 from db.utils import get_session
-import models
-from services import users
 
 
 def get_db() -> Generator:
