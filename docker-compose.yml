@@ -38,6 +38,8 @@ services:
     build: ./redis
     env_file:
       - ./redis/.env.local
+    ports:
+      - ${REDIS_PORT:-6379}:6379
 
   pgadmin:
     build: ./pgadmin
