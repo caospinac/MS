@@ -6,4 +6,10 @@
     "python.linting.enabled": true,
     "python.pythonPath": "web/.venv/bin/python3",
     "editor.rulers": [80],
+    "python.workspaceSymbols.exclusionPatterns": [
+        "**/site-packages/**",
+    ],
+    "search.exclude": {
+        "**/.venv": true
+    },
 }

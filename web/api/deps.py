@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 
 import models
 from services import users
-from schemas.jwt import TokenData
 from lib import Jwt, Redis
 from db.utils import get_session
 
@@ -22,7 +21,7 @@ def get_db() -> Generator:
 
 def authenticated(
     credentials: HTTPAuthorizationCredentials = Security(HTTPBearer())
-) -> TokenData:
+) -> str:
     try:
         if credentials:
             token_data = Jwt.verify_token(credentials.credentials)
@@ -32,6 +31,8 @@ def authenticated(
             session_user = Redis.load(session_key)
 
             return session_user['id']
+
+        return None
 
     except Exception as e:
         raise HTTPException(403, detail='Invalid authentication code.') from e
