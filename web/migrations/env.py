@@ -35,7 +35,6 @@ target_metadata = MetaData(
 # can be acquired:
 # my_important_option = config.get_main_option('my_important_option')
 # ... etc.
-print('**********************', os.environ.get('DB_NAME'))
 section = config.config_ini_section
 config.set_section_option(section, 'DB_USER', os.environ.get('DB_USER'))
 config.set_section_option(section, 'DB_PASSWORD', os.environ.get('DB_PASSWORD'))

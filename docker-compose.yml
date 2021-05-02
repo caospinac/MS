@@ -16,7 +16,7 @@ services:
     links:
       - postgres
     env_file:
-      - ./web/.env.local
+      - ./web/.env
     environment:
       - APP_NAME=${APP_NAME:-superuser}
       - DB_HOST=postgres
@@ -30,14 +30,14 @@ services:
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
       - ./postgres/data:/var/lib/postgresql/data
     env_file:
-      - ./postgres/.env.local
+      - ./postgres/.env
     ports:
       - ${POSTGRES_PORT:-5432}:5432
     
   redis:
     build: ./redis
     env_file:
-      - ./redis/.env.local
+      - ./redis/.env
     ports:
       - ${REDIS_PORT:-6379}:6379
 
@@ -52,7 +52,7 @@ services:
     ports:
       - ${PGADMIN_LISTEN_PORT:-5050}:5050
     env_file:
-      - ./pgadmin/.env.local
+      - ./pgadmin/.env
     depends_on:
       - postgres
 
