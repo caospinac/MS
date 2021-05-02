@@ -42,7 +42,7 @@ services:
   pgadmin:
     build: ./pgadmin
     links:
-      - postgres
+      - postgres:db
     volumes:
       - type: volume
         source: pgadmin-data

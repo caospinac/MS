@@ -15,11 +15,11 @@ done
 
 docker-compose build
 
-cd web
-
-poetry install
-
-cd ..
+(
+    cd web
+    PIPENV_VENV_IN_PROJECT=enabled
+    pipenv install
+)
 
 echo "All done."
 echo "Run 'docker-compose up' to start services"
