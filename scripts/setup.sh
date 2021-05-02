@@ -8,8 +8,8 @@ microservices=(
 )
 
 for ms in "${microservices[@]}"; do
-    if [ ! -f $ms/.env.local ]; then
-        cp $ms/.env $ms/.env.local
+    if [ ! -f $ms/.env ]; then
+        cp $ms/.env.tmpl $ms/.env
     fi
 done
 
