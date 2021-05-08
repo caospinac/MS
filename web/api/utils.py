@@ -32,7 +32,7 @@ class Router(APIRouter):
                 raise HTTPException(500) from e
 
             return {
-                'data': r
+                'data': r,
             }
 
         return wrapper

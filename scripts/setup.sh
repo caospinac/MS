@@ -17,8 +17,7 @@ docker-compose build
 
 (
     cd web
-    PIPENV_VENV_IN_PROJECT=enabled
-    pipenv install
+    PIPENV_VENV_IN_PROJECT=1 pipenv install
 )
 
 echo "All done."

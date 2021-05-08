@@ -38,7 +38,7 @@ def generate_refresh_token(user_id: str, sid: str):
             'sid': sid,
         },
         REFRESH_ACCESS_TOKEN_KEY,
-        algorithm='HS256'
+        algorithm='HS256',
     )
 
 

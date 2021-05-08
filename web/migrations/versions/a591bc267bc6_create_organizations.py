@@ -1,10 +1,10 @@
-"""create organizations
+'''create organizations
 
 Revision ID: a591bc267bc6
 Revises:
 Create Date: 2021-02-13 17:17:59.536990
 
-"""
+'''
 import enum
 import uuid
 from datetime import datetime

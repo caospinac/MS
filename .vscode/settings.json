@@ -1,9 +1,9 @@
 {
-    "python.linting.pylintArgs": [
-        "--rcfile=web/.pylintrc"
-    ],
-    "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
+    "python.linting.flake8Args": [
+        "--config=web/.flake8"
+    ],
+    "python.linting.flake8Enabled": true,
     "python.pythonPath": "web/.venv/bin/python3",
     "editor.rulers": [80],
     "python.workspaceSymbols.exclusionPatterns": [

@@ -1,10 +1,10 @@
-"""create custom_values
+'''create custom_values
 
 Revision ID: d7d080fe51ad
 Revises: f65bf758ecbc
 Create Date: 2021-02-18 19:52:21.138132
 
-"""
+'''
 import uuid
 from datetime import datetime
 

@@ -1,10 +1,10 @@
-"""create custom_fields
+'''create custom_fields
 
 Revision ID: f65bf758ecbc
 Revises: 40c6f3dc4c6d
 Create Date: 2021-02-18 19:39:21.152864
 
-"""
+'''
 import enum
 import uuid
 from datetime import datetime

@@ -20,7 +20,7 @@ def get_db() -> Generator:
 
 
 def authenticated(
-    credentials: HTTPAuthorizationCredentials = Security(HTTPBearer())
+    credentials: HTTPAuthorizationCredentials = Security(HTTPBearer()),
 ) -> str:
     try:
         if credentials:
@@ -39,7 +39,7 @@ def authenticated(
 
 
 def get_current_user(
-    user_id: str = Depends(authenticated), db: Session = Depends(get_db)
+    user_id: str = Depends(authenticated), db: Session = Depends(get_db),
 ) -> models.User:
     user = users.get(db, user_id)
 

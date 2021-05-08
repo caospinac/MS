@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from schemas.user import CreateSchema, UpdateSchema, UpdatePasswordSchema
 
+from schemas.user import CreateSchema, UpdateSchema, UpdatePasswordSchema
 from models import Organization, User
 
 
@@ -70,7 +70,7 @@ def update(db: Session, ident: str, payload: UpdateSchema):
 
 
 def delete(db: Session, ident: str):
-    user: User.get(db, ident)
+    user: User = User.get(db, ident)
     if user is None:
         raise HTTPException(404, 'User not found')
 

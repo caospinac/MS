@@ -27,8 +27,8 @@ target_metadata = MetaData(
         'uq': 'uq_%(table_name)s_%(column_0_name)s',
         'ck': 'ck_%(table_name)s_%(constraint_name)s',
         'fk': 'fk_%(table_name)s_%(column_0_name)s',
-        'pk': 'pk_%(table_name)s'
-    }
+        'pk': 'pk_%(table_name)s',
+    },
 )
 
 # other values from the config, defined by the needs of env.py,
@@ -43,7 +43,7 @@ config.set_section_option(section, 'DB_NAME', os.environ.get('DB_NAME'))
 
 
 def run_migrations_offline():
-    """Run migrations in 'offline' mode.
+    '''Run migrations in 'offline' mode.
 
     This configures the context with just a URL
     and not an Engine, though an Engine is acceptable
@@ -53,7 +53,7 @@ def run_migrations_offline():
     Calls to context.execute() here emit the given string to the
     script output.
 
-    """
+    '''
     url = config.get_main_option('sqlalchemy.url')
     context.configure(
         url=url,
@@ -67,12 +67,12 @@ def run_migrations_offline():
 
 
 def run_migrations_online():
-    """Run migrations in 'online' mode.
+    '''Run migrations in 'online' mode.
 
     In this scenario we need to create an Engine
     and associate a connection with the context.
 
-    """
+    '''
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix='sqlalchemy.',
@@ -81,7 +81,7 @@ def run_migrations_online():
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, target_metadata=target_metadata,
         )
 
         with context.begin_transaction():

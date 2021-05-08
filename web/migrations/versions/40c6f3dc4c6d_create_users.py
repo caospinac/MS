@@ -1,10 +1,10 @@
-"""create users
+'''create users
 
 Revision ID: 40c6f3dc4c6d
 Revises: a591bc267bc6
 Create Date: 2021-02-17 18:49:35.559357
 
-"""
+'''
 import enum
 import uuid
 from datetime import datetime

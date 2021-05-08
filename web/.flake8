@@ -1,0 +1,13 @@
+[flake8]
+max-line-length = 80
+exclude =
+  .git,
+  .venv,
+  __pycache__,
+  __init__.py,
+  .mypy_cache,
+  .pytest_cache
+
+inline-quotes = single
+multiline-quotes = single
+docstring-quotes = single
