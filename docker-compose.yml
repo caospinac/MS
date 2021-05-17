@@ -2,12 +2,12 @@ version: '3.8'
 
 services:
 
-  web:
-    image: web
-    build: ./web
+  server:
+    image: server
+    build: ./server
     working_dir: /app
     volumes:
-      - ./web:/app
+      - ./server:/app
     ports:
       - 8000:8000
     depends_on:
@@ -16,7 +16,7 @@ services:
     links:
       - postgres
     env_file:
-      - ./web/.env
+      - ./server/.env
     environment:
       - APP_NAME=${APP_NAME:-superuser}
       - DB_HOST=postgres

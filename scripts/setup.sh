@@ -3,7 +3,7 @@
 microservices=(
     postgres
     redis
-    web
+    server
     pgadmin
 )
 
@@ -16,7 +16,7 @@ done
 docker-compose build
 
 (
-    cd web
+    cd server
     PIPENV_VENV_IN_PROJECT=1 pipenv install
 )
 
