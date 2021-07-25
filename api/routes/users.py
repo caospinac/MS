@@ -20,14 +20,14 @@ def users(oid: str, db: Session = Depends(get_db)) -> List[User]:
 
 @router.post('/')
 def create(
-    oid: str, payload: CreateSchema, db: Session = Depends(get_db)
+    oid: str, payload: CreateSchema, db: Session = Depends(get_db),
 ) -> User:
     return service.create(db, oid, payload)
 
 
 @router.put('/{ident}')
 def update(
-    ident: str, payload: UpdateSchema, db: Session = Depends(get_db)
+    ident: str, payload: UpdateSchema, db: Session = Depends(get_db),
 ) -> User:
     return service.update(db, ident, payload)
 
@@ -44,6 +44,6 @@ def restore(ident: str, db: Session = Depends(get_db)) -> User:
 
 @router.put('/{ident}/password')
 def update_password(
-    ident: str, payload: UpdatePasswordSchema, db: Session = Depends(get_db)
+    ident: str, payload: UpdatePasswordSchema, db: Session = Depends(get_db),
 ) -> None:
     return service.update_password(db, ident, payload)

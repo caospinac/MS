@@ -20,20 +20,20 @@ def get_list(db: Session = Depends(get_db)) -> List[Organization]:
 
 @router.get('/{ident}')
 def get(
-    ident: str, db: Session = Depends(get_db)
+    ident: str, db: Session = Depends(get_db),
 ) -> Union[Organization, None]:
     return service.get(db, ident)
 
 
 @router.post('/')
 def create(
-    payload: CreateSchema, db: Session = Depends(get_db)
+    payload: CreateSchema, db: Session = Depends(get_db),
 ) -> Organization:
     return service.create(db, payload)
 
 
 @router.post('/{ident}/verify')
 def complete_creation(
-    ident: str, payload: CompleteCreationSchema, db: Session = Depends(get_db)
+    ident: str, payload: CompleteCreationSchema, db: Session = Depends(get_db),
 ) -> Organization:
     return service.complete_creation(db, ident, payload)

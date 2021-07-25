@@ -10,7 +10,7 @@ from fastapi import APIRouter, HTTPException
 class Router(APIRouter):
 
     def add_api_route(
-        self, path: str, endpoint: Callable[..., Any], *argv: Any, **kw: Any
+        self, path: str, endpoint: Callable[..., Any], *argv: Any, **kw: Any,
     ) -> None:
         return super().add_api_route(path,
                                      self.handle_endpoint(endpoint),

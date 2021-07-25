@@ -89,7 +89,7 @@ class User(Model):
 
     @classmethod
     def get_by_external_id(
-        cls: Type[T], db: Session, oid: str, external_id: str
+        cls: Type[T], db: Session, oid: str, external_id: str,
     ) -> Union[T, None]:
         return db.query(cls)\
             .filter_by(organization_id=oid, external_id=external_id)\
