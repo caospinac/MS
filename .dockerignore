@@ -1,6 +1,3 @@
 .git
-node_modules/
-build/
-data/
 .venv
 **/*.pyc

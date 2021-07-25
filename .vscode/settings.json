@@ -1,10 +1,10 @@
 {
     "python.linting.enabled": true,
     "python.linting.flake8Args": [
-        "--config=server/.flake8"
+        "--config=.flake8"
     ],
     "python.linting.flake8Enabled": true,
-    "python.pythonPath": "server/.venv/bin/python3",
+    "python.pythonPath": ".venv/bin/python",
     "editor.rulers": [80],
     "python.workspaceSymbols.exclusionPatterns": [
         "**/site-packages/**",
@@ -12,4 +12,6 @@
     "search.exclude": {
         "**/.venv": true
     },
+    "mypy.dmypyExecutable": ".venv/bin/dmypy",
+    "mypy.runUsingActiveInterpreter": true
 }

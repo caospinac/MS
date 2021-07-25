@@ -4,57 +4,11 @@ services:
 
   server:
     image: server
-    build: ./server
+    build: .
     working_dir: /app
     volumes:
-      - ./server:/app
+      - .:/app
     ports:
       - 8000:8000
-    depends_on:
-      - postgres
-      - redis
-    links:
-      - postgres
     env_file:
-      - ./server/.env
-    environment:
-      - APP_NAME=${APP_NAME:-superuser}
-      - DB_HOST=postgres
-      - REDIS_HOST=redis
-      - REDIS_PASSWORD=${REDIS_PASSWORD:-redis}
-
-  postgres:
-    build: ./postgres
-    restart: always
-    volumes:
-      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-      - ./postgres/data:/var/lib/postgresql/data
-    env_file:
-      - ./postgres/.env
-    ports:
-      - ${POSTGRES_PORT:-5432}:5432
-    
-  redis:
-    build: ./redis
-    env_file:
-      - ./redis/.env
-    ports:
-      - ${REDIS_PORT:-6379}:6379
-
-  pgadmin:
-    build: ./pgadmin
-    links:
-      - postgres:db
-    volumes:
-      - type: volume
-        source: pgadmin-data
-        target: /var/lib/pgadmin
-    ports:
-      - ${PGADMIN_LISTEN_PORT:-5050}:5050
-    env_file:
-      - ./pgadmin/.env
-    depends_on:
-      - postgres
-
-volumes:
-  pgadmin-data:
+      - .env

@@ -1,0 +1,33 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = "*"
+uvicorn = "*"
+sqlalchemy = "*"
+alembic = "*"
+pydantic = "*"
+bcrypt = "*"
+pyjwt = "*"
+redis = "*"
+psycopg2-binary = "*"
+
+[dev-packages]
+flake8 = "*"
+flake8-commas = "*"
+pep8-naming = "*"
+flake8-quotes = "*"
+autopep8 = "*"
+mypy = "*"
+sqlalchemy-stubs = "*"
+
+[requires]
+python_version = "3.8"
+
+[scripts]
+start = "uvicorn main:app --host 0.0.0.0 --reload"
+migrate = "alembic upgrade head"
+revert-migration = "alembic downgrade -1"
+lint = "flake8 ."

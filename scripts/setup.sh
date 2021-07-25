@@ -1,24 +1,14 @@
 #!/bin/bash
 
-microservices=(
-    postgres
-    redis
-    server
-    pgadmin
-)
+if [ ! -f .env ]; then
+    cp .env.tmpl .env
+fi
 
-for ms in "${microservices[@]}"; do
-    if [ ! -f $ms/.env ]; then
-        cp $ms/.env.tmpl $ms/.env
-    fi
-done
+python3 -m pip install -U --upgrade pip
+python3 -m pip install -U pipenv
+PIPENV_VENV_IN_PROJECT=1 python3 -m pipenv install -d
+.venv/bin/pip install --upgrade pip
+.venv/bin/pip install pipenv
+source .venv/bin/activate
 
-docker-compose build
-
-(
-    cd server
-    PIPENV_VENV_IN_PROJECT=1 pipenv install
-)
-
-echo "All done."
-echo "Run 'docker-compose up' to start services"
+echo "OK, let's hack!"
